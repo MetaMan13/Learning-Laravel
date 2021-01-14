@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>{{ $post }}</h3>
+    <h3>{{ $post_slug }}</h3>
+    <p>{{ $post_body }}</p>
 </body>
 </html>
