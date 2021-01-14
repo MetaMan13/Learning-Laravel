@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -10,18 +11,15 @@ class PostsController extends Controller
     public function show($slug){
        
         // Fetching from database
-        $post = \DB::table('posts')->where('slug', $slug)->first();
+        // $post = \DB::table('posts')->where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->firstOrFail();
 
         
         if($post == null){
             abort(404);
         }else{
-            // dd($post->id);
-
             return view('post', [
-                'post_id' => $post->id,
-                'post_slug' => $post->slug,
-                'post_body' => $post->body
+                'post' => $post
             ]);
         }
     }
