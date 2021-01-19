@@ -7,10 +7,8 @@ use App\Models\Article;
 
 class ArticlesController extends Controller
 {
-    public function show($id)
+    public function show(Article $article)
     {
-        $article = Article::find($id);
-
         return view('articles.show', ['article' => $article]);
     }
 
@@ -28,30 +26,71 @@ class ArticlesController extends Controller
 
     public function store()
     {
-        // dump(request()->all());
-        $article = new Article();
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
+        // $validatedAttributes = request()->validate([
+        //     'title' => ['required'],
+        //     'excerpt' => ['required'],
+        //     'body' => ['required'],
+        // ]);
+
+            // We can clean this up with the uncomented code below
+
+        // $article = new Article();
+        // $article->title = request('title');
+        // $article->excerpt = request('excerpt');
+        // $article->body = request('body');
+        // $article->save();
+
+            // The code
+
+        // Article::create([
+        //     'title' => request('title'),
+        //     'excerpt' => request('excerpt'),
+        //     'body' => request('body')
+        // ]);
+
+        // We can further clean this up by the following code
+
+        // Article::create($validatedAttributes);
+
+        // THE ULTIMATE AND SHORTEST WAY TO CLEAN THIS UP
+
+        // Article::create(request()->validate([
+        //     'title' => 'required',
+        //     'excerpt' => 'required',
+        //     'body' => 'required'
+        // ]));
+
+        Article::create($this->validateArticle());
 
         return redirect('/articles');
     }
 
-    public function edit($id)
+    public function edit(Article $article)
     {
-        $article = Article::find($id);
         return view('articles.edit', ['article' => $article]);
     }
 
-    public function update($id)
+    public function update(Article $article)
     {
-        $article = Article::find($id);
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
-        $article->save();
+        // $article->update(request()->validate([
+        //     'title' => 'required',
+        //     'excerpt' => 'required',
+        //     'body' => 'required'
+        // ]));
 
-        return redirect('/articles/' . $article->id);
+        $article->update($this->validateArticle());
+
+        // return redirect('/articles/' . $article->id);
+        // return redirect(route('articles.show', $article));
+        return redirect($article->path());
+    }
+
+    protected function validateArticle()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required'
+        ]);
     }
 }
