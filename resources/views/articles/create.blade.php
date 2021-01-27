@@ -34,8 +34,23 @@
 
                     <div class="control">
                         <textarea type="text" class="input" name="body" id="body" value="{{ old('title') }}">{{ old('body') }}</textarea>
-                        @if ($errors->has('excerpt'))
-                        <p style="color: red">{{ $errors->first('excerpt')}}</p>
+                        @if ($errors->has('body'))
+                        <p style="color: red">{{ $errors->first('body')}}</p>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <label for="body" class="label">Tags</label>
+
+                    <div class="control">
+                       <select name="tags[]" id="" multiple style="padding: 10px 5px">
+                            @foreach ($tags as $tag)
+                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            @endforeach
+                       </select>
+                       @if ($errors->has('tags'))
+                        <p style="color: red">{{ $errors->first('tags')}}</p>
                         @endif
                     </div>
                 </div>

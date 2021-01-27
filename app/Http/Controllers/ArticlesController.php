@@ -27,7 +27,9 @@ class ArticlesController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        return view('articles.create', [
+            'tags' => Tag::all()
+            ]);
     }
 
     public function store()
@@ -65,8 +67,13 @@ class ArticlesController extends Controller
         //     'excerpt' => 'required',
         //     'body' => 'required'
         // ]));
+        $this->validateArticle();
+        $article = new Article(request(['title', 'excerpt', 'body']));
+        $article->user_id = 1;
+        $article->save();
+        $article->tags()->attach(request('tags'));
 
-        Article::create($this->validateArticle());
+        // Article::create($this->validateArticle());
 
         return redirect('/articles');
     }
@@ -96,7 +103,8 @@ class ArticlesController extends Controller
         return request()->validate([
             'title' => 'required',
             'excerpt' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'tags' => 'exists:tags,id'
         ]);
     }
 }
