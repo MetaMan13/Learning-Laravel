@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\ExampleTwo;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
         
             // MORE SIMPLIFIED WAY
             return new \App\Models\Example($collaborator, $foo);
+        });
+
+        app()->singleton('App\Models\ExampleTwo', function(){
+            return new ExampleTwo();
         });
     }
 

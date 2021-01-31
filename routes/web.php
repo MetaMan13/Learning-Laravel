@@ -70,3 +70,6 @@ Route::get('/service-providers', function(\App\Models\Example $example){
 });
 
 Route::get('/resolve-two', '\App\Http\Controllers\PagesController@home');
+
+Route::get('/contact', '\App\Http\Controllers\ContactController@show');
+Route::post('/contact', '\App\Http\Controllers\ContactController@store');
