@@ -77,5 +77,6 @@ Route::get('/about-us', function(){
                 Route::post('/payments', '\App\Http\Controllers\PaymentsController@store')->middleware('auth');
                 
                 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+                Route::get('/notifications', '\App\Http\Controllers\UserNotificationsController@show')->middleware('auth');
                 
                 Illuminate\Support\Facades\Auth::routes();

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\NexmoMessage;
 
 class PaymentRecieved extends Notification
 {
@@ -18,10 +19,12 @@ class PaymentRecieved extends Notification
      */
 
     public $userName;
+    protected $amount;
 
-    public function __construct($userName)
+    public function __construct($userName, $amount)
     {
         $this->userName = $userName;
+        $this->amount = $amount;
     }
 
     /**
@@ -32,7 +35,7 @@ class PaymentRecieved extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database', 'nexmo'];
     }
 
     /**
@@ -51,6 +54,11 @@ class PaymentRecieved extends Notification
                     ->line('Thank you for using our services!');
     }
 
+    public function toNexmo($notifiable)
+    {
+        return (new NexmoMessage)->content('Pozdrav od generisanog sms-a');
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -60,7 +68,7 @@ class PaymentRecieved extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'amount' => $this->amount
         ];
     }
 }

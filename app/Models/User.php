@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+
+    public function routeNotificationForNexmo($notification)
+    {
+        return '38761376762';
+    }
 }

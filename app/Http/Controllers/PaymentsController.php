@@ -20,7 +20,7 @@ class PaymentsController extends Controller
         // THIS WAY IS FINE
         // FacadesNotification::send(request()->user(), new PaymentRecieved("Amar"));
         // SHORTER SYNTAX
-        request()->user()->notify(new PaymentRecieved("Amar"));
+        request()->user()->notify(new PaymentRecieved("Amar", 900));
         return redirect('/payments/create');
     }
 }
