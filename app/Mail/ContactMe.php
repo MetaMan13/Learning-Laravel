@@ -30,6 +30,9 @@ class ContactMe extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.contact-me')->subject('More information about ' . $this->topic);
+        // Using views to send Emails
+        // return $this->view('emails.contact-me')->subject('More information about ' . $this->topic);
+        // Using markdown to send emails
+        return $this->markdown('emails.contact-me')->subject('More information about ' . $this->topic);
     }
 }
